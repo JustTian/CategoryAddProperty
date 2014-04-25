@@ -10,9 +10,6 @@
 
 @interface UIView (GradientView)
 
-@property (nonatomic,retain) UIColor *startColor;
-@property (nonatomic,retain) UIColor *endColor;
-
 @property (nonatomic,retain) NSArray *locations;
 @property (nonatomic,retain) NSArray *colors;
 

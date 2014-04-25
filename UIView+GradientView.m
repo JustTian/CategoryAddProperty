@@ -15,27 +15,9 @@ static const void *EndColor = &EndColor;
 static const void *Locations = &Locations;
 static const void *Colors = &Colors;
 @implementation UIView (GradientView)
-@dynamic startColor;
-@dynamic endColor;
+
 @dynamic locations;
 
-//
--(void)setStartColor:(UIColor *)startColor{
-
-    objc_setAssociatedObject(self, StartColor, startColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (UIColor *)startColor{
-
-    return objc_getAssociatedObject(self, StartColor);
-}
-//
-- (void)setEndColor:(UIColor *)endColor{
-    objc_setAssociatedObject(self, EndColor, endColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (UIColor *)endColor{
-    return objc_getAssociatedObject(self, EndColor);
-}
 //
 - (void)setLocations:(NSArray *)locations{
     
@@ -57,21 +39,24 @@ static const void *Colors = &Colors;
 
 -(CAGradientLayer *)shadowAsInverse{
     CAGradientLayer *newShadow = [[CAGradientLayer alloc] init];
-    CGRect newShadowFrame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    CGRect newShadowFrame =self.frame;
+    
     newShadow.frame = newShadowFrame;
+   
     if (self.locations.count) {
         newShadow.locations = self.locations;
     }
+    NSMutableArray *muColors = [[NSMutableArray alloc]initWithCapacity:self.colors.count];
+    
     //添加渐变的颜色组合
-    if (self.colors.count) {
-        NSMutableArray *muColors = [[NSMutableArray alloc]initWithCapacity:self.colors.count];
-        
+    if (self.colors != nil) {
         for (UIColor *subColor in self.colors) {
             [muColors addObject:(id)[subColor CGColor]];
         }
-        
-        newShadow.colors = muColors;
     }
+
+    newShadow.colors = muColors;
+    
     return newShadow;
 }
 @end
